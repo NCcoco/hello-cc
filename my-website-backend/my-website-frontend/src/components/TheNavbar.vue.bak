@@ -1,12 +1,11 @@
 <template>
   <nav class="navbar-full-width">
-    <div class="navbar-content-wrapper">
+    <div class="navbar-content-wrapper"> <!-- New wrapper to constrain content -->
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item brand-text">MySite</router-link>
       </div>
       <div class="navbar-menu">
         <router-link to="/" class="navbar-item">首页</router-link>
-        <router-link to="/english" class="navbar-item">英语</router-link> <!-- New Button -->
         <router-link to="/java" class="navbar-item">JAVA</router-link>
         <router-link to="/ai" class="navbar-item">人工智能</router-link>
         <router-link to="/math" class="navbar-item">数学</router-link>
@@ -24,22 +23,23 @@ export default {
 
 <style scoped>
 .navbar-full-width {
-  background-color: #24292e;
+  background-color: #24292e; /* GitHub's header background color */
   color: #ffffff;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid #1b1f23;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 0.5rem 1rem; /* Vertical padding, horizontal padding for ends of bar */
+  border-bottom: 1px solid #1b1f23; /* Darker border for the full-width bar */
+  width: 100%; /* Ensure it spans full width */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 .navbar-content-wrapper {
-  max-width: 1012px;
-  margin: 0 auto;
+  max-width: 1012px; /* Max width for the content inside the navbar */
+  margin: 0 auto;     /* Center the content wrapper */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* .navbar-brand and .navbar-menu will be children of .navbar-content-wrapper */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@ export default {
 }
 
 .navbar-item:hover,
-.navbar-item.router-link-exact-active {
+.navbar-item.router-link-exact-active { /* Style for active link */
   background-color: #40474f;
   border-radius: 6px;
 }
