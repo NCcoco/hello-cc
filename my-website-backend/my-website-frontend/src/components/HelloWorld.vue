@@ -1,64 +1,43 @@
 <template>
-  <div class="page-content">
-    <ThePersonalInfo /> <!-- Add PersonalInfo component -->
-    <div class="hello-world-message">
-      <h1>{{ msg }}</h1>
-      <p>Backend Message: {{ backendMessage }}</p>
-    </div>
+  <div class="placeholder-content">
+    <h2>{{ pageTitle }}</h2>
+    <p v-if="msg">{{ msg }}</p>
+    <p v-else>This section is currently under development.</p>
+    <!-- Removed ThePersonalInfo and backend message fetching -->
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import ThePersonalInfo from './ThePersonalInfo.vue'; // Import PersonalInfo
-
 export default {
-  name: 'HelloWorld',
-  components: {
-    ThePersonalInfo // Register PersonalInfo
-  },
+  name: 'HelloWorld', // Keep the name as HelloWorld if other routes still refer to it by this name for dynamic import
   props: {
-    msg: String
-  },
-  data() {
-    return {
-      backendMessage: 'Loading message from backend...'
-    };
-  },
-  mounted() {
-    axios.get('http://localhost:8080/api/hello')
-      .then(response => {
-        this.backendMessage = response.data;
-      })
-      .catch(error => {
-        this.backendMessage = 'Failed to load message from backend: ' + error.message;
-        console.error("Error fetching data: ", error);
-      });
+    msg: String, // This prop will be passed from the router for pages like Java, AI, etc.
+    pageTitle: String // Optional title for the placeholder page
   }
 }
 </script>
 
 <style scoped>
-.page-content {
-  padding: 15px; /* Add some padding to the overall page content area */
-  text-align: left; /* Override App.vue's text-align: center for page content */
-}
-
-.hello-world-message {
-  background-color: #fff;
+.placeholder-content {
   padding: 20px;
-  border-radius: 6px;
+  text-align: center;
   border: 1px solid #e1e4e8;
-  margin-top: 20px; /* Space it from personal info card */
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  min-height: 200px; /* Give it some default height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-h1 { /* Target h1 within this component */
+.placeholder-content h2 {
   color: #333;
-  text-align: center; /* Center the h1 if desired */
+  margin-bottom: 10px;
 }
 
-p { /* Target p within this component */
-  color: #555;
-  text-align: center; /* Center the p if desired */
+.placeholder-content p {
+  color: #586069;
+  font-size: 1.1rem;
 }
 </style>

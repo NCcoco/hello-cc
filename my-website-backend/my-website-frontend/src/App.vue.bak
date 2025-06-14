@@ -1,18 +1,20 @@
 <template>
-  <div id="app-wrapper">
-    <TheNavbar /> <!-- Add Navbar component -->
-    <img alt="Vue logo" src="./assets/logo.png"> <!-- This might be removed later or integrated into a profile section -->
-    <router-view/>
+  <div> <!-- New root element since template can only have one -->
+    <TheNavbar /> <!-- Navbar is now outside #app-wrapper -->
+    <div id="app-wrapper">
+      <img alt="Vue logo" src="./assets/logo.png">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
-import TheNavbar from './components/TheNavbar.vue'; // Import Navbar
+import TheNavbar from './components/TheNavbar.vue';
 
 export default {
   name: 'App',
   components: {
-    TheNavbar // Register Navbar
+    TheNavbar
   }
 }
 </script>
@@ -21,33 +23,34 @@ export default {
 /* Global styles */
 body {
   margin: 0;
-  background-color: #f6f8fa;
+  background-color: #f6f8fa; /* GitHub-like light gray background for areas outside content */
 }
 
 #app-wrapper {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; -- Removing this as navbar and other content might not always be centered text-wise */
   color: #2c3e50;
 
   max-width: 1012px;
-  margin: 0 auto;
-  /* Padding might be adjusted if navbar is inside and has its own padding */
-  /* Let's remove direct padding from app-wrapper for now and let navbar and router-view manage their spacing */
-  /* padding: 20px;  */
-  background-color: #ffffff;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  /* Overflow hidden can be useful if child elements with negative margins are used for full-width effects inside */
-  /* overflow: hidden; */
+  margin: 0 auto; /* Center the content area */
+  background-color: #ffffff; /* White background for the content area */
+  border-left: 1px solid #d0d7de; /* Borders only on sides for content area */
+  border-right: 1px solid #d0d7de;
+  /* border-top and border-bottom might be removed if navbar handles top and a footer handles bottom */
+  /* For now, let's keep a bottom border and space for content */
+  border-bottom: 1px solid #d0d7de;
+  padding: 20px; /* Add padding inside the content area */
+
+  /* Adjust margin-top if navbar has fixed height, or handle spacing globally */
+  /* margin-top: 30px; -- This was for when wrapper was the topmost */
+  /* margin-bottom: 30px; */
+  min-height: calc(100vh - 60px); /* Example: if navbar is 60px, make wrapper fill rest of height */
 }
 
 /* Styling for the logo, can be adjusted */
 #app-wrapper img[alt="Vue logo"] {
   display: block;
-  margin: 20px auto; /* Center logo if it's kept */
+  margin: 0 auto 20px auto; /* Center logo if it's kept, with space below */
 }
 </style>

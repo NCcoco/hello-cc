@@ -1,0 +1,69 @@
+<template>
+  <div class="home-view">
+    <ThePersonalInfo />
+    <div class="welcome-message">
+      <h1>{{ msg }}</h1>
+      <p>Backend Message: {{ backendMessage }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import ThePersonalInfo from '../components/ThePersonalInfo.vue'; // Correct path from views to components
+
+export default {
+  name: 'HomeView',
+  components: {
+    ThePersonalInfo
+  },
+  props: {
+    // msg prop can be passed from the router if needed, or set locally
+    msg: {
+      type: String,
+      default: 'Welcome to Your Personal Site' // Default welcome message for home
+    }
+  },
+  data() {
+    return {
+      backendMessage: 'Loading message from backend...'
+    };
+  },
+  mounted() {
+    // Fetch backend message, same as HelloWorld.vue was doing
+    axios.get('http://localhost:8080/api/hello') // Assuming CORS or proxy is set up
+      .then(response => {
+        this.backendMessage = response.data;
+      })
+      .catch(error => {
+        this.backendMessage = 'Failed to load message from backend: ' + error.message;
+        console.error("Error fetching data for HomeView: ", error);
+      });
+  }
+}
+</script>
+
+<style scoped>
+.home-view {
+  padding: 15px;
+  text-align: left;
+}
+
+.welcome-message {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #e1e4e8;
+  margin-top: 20px;
+}
+
+.welcome-message h1 {
+  color: #333;
+  text-align: center;
+}
+
+.welcome-message p {
+  color: #555;
+  text-align: center;
+}
+</style>

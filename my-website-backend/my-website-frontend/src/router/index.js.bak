@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HelloWorld from '../components/HelloWorld.vue'; // General placeholder
+import HelloWorld from '../components/HelloWorld.vue';
+import EnglishView from '../views/EnglishView.vue'; // Import the new view
 
 const routes = [
   {
@@ -9,33 +10,33 @@ const routes = [
     props: { msg: 'Welcome to Your Personal Site' }
   },
   {
-    path: '/english', // New route for English
+    path: '/english',
     name: 'English',
-    component: HelloWorld, // Placeholder, will be updated
-    props: { msg: 'English Learning Section' }
+    component: EnglishView // Use the new EnglishView component
+    // No props needed unless specified by EnglishView
   },
   {
     path: '/java',
     name: 'Java',
-    component: HelloWorld,
+    component: HelloWorld, // Placeholder
     props: { msg: 'Java Content Page' }
   },
   {
     path: '/ai',
     name: 'AI',
-    component: HelloWorld,
+    component: HelloWorld, // Placeholder
     props: { msg: 'Artificial Intelligence Content Page' }
   },
   {
     path: '/math',
     name: 'Math',
-    component: HelloWorld,
+    component: HelloWorld, // Placeholder
     props: { msg: 'Mathematics Content Page' }
   },
   {
     path: '/dev',
     name: 'DevInProgress',
-    component: HelloWorld,
+    component: HelloWorld, // Placeholder
     props: { msg: 'Content Under Development' }
   }
 ];
