@@ -3,6 +3,8 @@ com/example/mywebsite/controller/DictionaryController.class
 com/example/mywebsite/model/WordDefinition.class
 com/example/mywebsite/HelloController.class
 com/example/mywebsite/model/MeaningPojo.class
+com/example/mywebsite/config/WebMvcConfig$1.class
+com/example/mywebsite/config/WebMvcConfig.class
 com/example/mywebsite/model/DictionaryWord.class
 com/example/mywebsite/model/Meaning.class
 com/example/mywebsite/model/InflectionsPojo.class
