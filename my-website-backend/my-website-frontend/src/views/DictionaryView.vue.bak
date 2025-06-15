@@ -1,0 +1,260 @@
+<template>
+  <div class="dictionary-view">
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        v-model="searchQuery"
+        placeholder="Search dictionary..."
+        @keyup.enter="performSearch"
+      />
+      <button @click="performSearch" class="search-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="results-container" v-if="showResults && searchResult">
+      <h2 class="word-title">{{ searchResult.word }}</h2>
+
+      <div v-for="(entry, index) in searchResult.entries" :key="index" class="result-entry">
+        <h3 class="part-of-speech">{{ entry.partOfSpeech }}</h3>
+
+        <div class="meanings-section">
+          <h4>Meanings:</h4>
+          <ul>
+            <li v-for="(meaning, mIndex) in entry.meanings" :key="mIndex" class="meaning-item">
+              {{ meaning.definition }}
+              <span v-if="meaning.example" class="example-sentence-inline"> (e.g., "{{ meaning.example }}")</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="inflections-section" v-if="hasInflections(entry.inflections)">
+          <h4>Inflections:</h4>
+          <ul class="inflections-list">
+            <li v-if="entry.inflections.plural"><strong>Plural:</strong> {{ entry.inflections.plural }}</li>
+            <li v-if="entry.inflections.thirdPersonSingular"><strong>3rd Person Singular:</strong> {{ entry.inflections.thirdPersonSingular }}</li>
+            <li v-if="entry.inflections.pastTense"><strong>Past Tense:</strong> {{ entry.inflections.pastTense }}</li>
+            <li v-if="entry.inflections.pastParticiple"><strong>Past Participle:</strong> {{ entry.inflections.pastParticiple }}</li>
+            <li v-if="entry.inflections.presentParticiple"><strong>Present Participle:</strong> {{ entry.inflections.presentParticiple }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="example-sentences-section" v-if="searchResult.exampleSentences && searchResult.exampleSentences.length">
+        <h4>Example Sentences:</h4>
+        <ul>
+          <li v-for="(sentence, sIndex) in searchResult.exampleSentences" :key="sIndex" class="example-sentence-item">
+            {{ sentence }}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="no-results" v-if="showResults && !searchResult">
+      <p>No results found for "{{ submittedQuery }}".</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'DictionaryView',
+  data() {
+    return {
+      searchQuery: '',
+      submittedQuery: '',
+      showResults: false,
+      searchResult: null // Will hold the structured result object
+    };
+  },
+  methods: {
+    performSearch() {
+      if (!this.searchQuery.trim()) return;
+      this.submittedQuery = this.searchQuery;
+      this.showResults = true;
+      // Simulate API call and result structure for now
+      // This will be replaced with actual API call and data in the next step
+      this.searchResult = this.getMockResult(this.submittedQuery);
+      console.log("Search initiated for:", this.submittedQuery);
+    },
+    hasInflections(inflections) {
+      if (!inflections) return false;
+      return Object.values(inflections).some(value => value !== null && value !== '');
+    },
+    getMockResult(query) {
+      // Simple mock data structure based on requirements
+      // In a real scenario, this comes from the backend
+      if (query.toLowerCase() === "hello") {
+        return {
+          word: "hello",
+          entries: [
+            {
+              partOfSpeech: "interjection",
+              meanings: [
+                { definition: "Used as a greeting or to begin a phone conversation.", example: "Hello there, how are you?" }
+              ],
+              inflections: {} // No typical inflections for interjections
+            },
+            {
+              partOfSpeech: "noun",
+              meanings: [
+                { definition: "An utterance of 'hello'; a greeting." }
+              ],
+              inflections: { plural: "hellos" }
+            }
+          ],
+          exampleSentences: [
+            "She said hello to the new neighbors.",
+            "A chorus of hellos greeted him."
+          ]
+        };
+      } else if (query.toLowerCase() === "go") {
+         return {
+          word: "go",
+          entries: [
+            {
+              partOfSpeech: "verb",
+              meanings: [
+                { definition: "Move from one place to another; travel.", example: "We went to the park." },
+                { definition: "Depart; leave.", example: "I really must be going." }
+              ],
+              inflections: {
+                thirdPersonSingular: "goes",
+                pastTense: "went",
+                pastParticiple: "gone",
+                presentParticiple: "going"
+              }
+            }
+          ],
+          exampleSentences: [
+            "Let's go for a walk.",
+            "She has to go to work."
+          ]
+        };
+      }
+      return null; // No result found
+    }
+  }
+}
+</script>
+
+<style scoped>
+.dictionary-view {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #dfe1e5;
+  border-radius: 24px;
+  padding: 5px 15px;
+  box-shadow: 0 2px 5px 1px rgba(60,64,67,.15);
+  margin-bottom: 30px;
+}
+.search-container:hover, .search-container:focus-within {
+  box-shadow: 0 2px 8px 1px rgba(60,64,67,.25);
+}
+.search-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 16px;
+  background-color: transparent;
+}
+.search-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4285f4;
+}
+.search-button:hover svg { opacity: 0.8; }
+
+.results-container {
+  width: 100%;
+  max-width: 800px;
+  text-align: left;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.word-title {
+  font-size: 2.5em;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #7f8c8d;
+  padding-bottom: 10px;
+}
+
+.result-entry {
+  margin-bottom: 25px;
+}
+
+.part-of-speech {
+  font-style: italic;
+  color: #3498db; /* A distinct color for part of speech */
+  margin-bottom: 10px;
+  font-size: 1.4em;
+}
+
+.meanings-section h4,
+.inflections-section h4,
+.example-sentences-section h4 {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.meanings-section ul,
+.inflections-section ul,
+.example-sentences-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.meanings-section .meaning-item,
+.inflections-section .inflections-list li,
+.example-sentences-section .example-sentence-item {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  font-size: 0.95em;
+}
+
+.inflections-list li strong {
+  color: #555;
+}
+
+.example-sentence-inline {
+  font-style: italic;
+  color: #777;
+}
+
+.example-sentence-item {
+  padding-left: 10px;
+  border-left: 3px solid #bdc3c7;
+}
+
+.no-results {
+  margin-top: 20px;
+  color: #7f8c8d;
+  font-size: 1.1em;
+}
+</style>

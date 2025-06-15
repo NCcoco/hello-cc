@@ -1,0 +1,67 @@
+package com.example.mywebsite.model;
+
+import java.util.List;
+import java.util.Objects;
+
+// Renamed to DictionaryWord to avoid confusion with Map.Entry
+public class DictionaryWord {
+    private Long id; // Corresponds to word_id
+    private String wordText;
+    private List<WordDefinition> definitions; // One word can have multiple definitions (noun, verb etc)
+
+    // Constructors
+    public DictionaryWord() {}
+
+    public DictionaryWord(String wordText, List<WordDefinition> definitions) {
+        this.wordText = wordText;
+        this.definitions = definitions;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getWordText() {
+        return wordText;
+    }
+
+    public void setWordText(String wordText) {
+        this.wordText = wordText;
+    }
+
+    public List<WordDefinition> getDefinitions() {
+        return definitions;
+    }
+
+    public void setDefinitions(List<WordDefinition> definitions) {
+        this.definitions = definitions;
+    }
+
+    // equals, hashCode, toString
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DictionaryWord that = (DictionaryWord) o;
+        return Objects.equals(id, that.id) && Objects.equals(wordText, that.wordText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, wordText);
+    }
+
+    @Override
+    public String toString() {
+        return "DictionaryWord{" +
+               "id=" + id +
+               ", wordText='" + wordText + '\'' +
+               ", definitions=" + (definitions != null ? definitions.size() : 0) + " entries" +
+               '}';
+    }
+}

@@ -1,2 +1,9 @@
+com/example/mywebsite/controller/DictionaryController.class
+com/example/mywebsite/model/WordDefinition.class
+com/example/mywebsite/service/DictionaryService.class
 com/example/mywebsite/MyWebsiteApplication.class
 com/example/mywebsite/HelloController.class
+com/example/mywebsite/repository/DictionaryWordRepository.class
+com/example/mywebsite/model/DictionaryWord.class
+com/example/mywebsite/model/Inflections.class
+com/example/mywebsite/model/Meaning.class

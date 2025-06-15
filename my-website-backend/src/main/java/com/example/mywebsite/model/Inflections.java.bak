@@ -1,0 +1,88 @@
+package com.example.mywebsite.model;
+
+import java.util.Objects;
+
+public class Inflections {
+    private Long id; // Corresponds to inflection_id
+    private String plural;
+    private String thirdPersonSingular;
+    private String pastTense;
+    private String pastParticiple;
+    private String presentParticiple;
+
+    // Constructors
+    public Inflections() {}
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPlural() {
+        return plural;
+    }
+
+    public void setPlural(String plural) {
+        this.plural = plural;
+    }
+
+    public String getThirdPersonSingular() {
+        return thirdPersonSingular;
+    }
+
+    public void setThirdPersonSingular(String thirdPersonSingular) {
+        this.thirdPersonSingular = thirdPersonSingular;
+    }
+
+    public String getPastTense() {
+        return pastTense;
+    }
+
+    public void setPastTense(String pastTense) {
+        this.pastTense = pastTense;
+    }
+
+    public String getPastParticiple() {
+        return pastParticiple;
+    }
+
+    public void setPastParticiple(String pastParticiple) {
+        this.pastParticiple = pastParticiple;
+    }
+
+    public String getPresentParticiple() {
+        return presentParticiple;
+    }
+
+    public void setPresentParticiple(String presentParticiple) {
+        this.presentParticiple = presentParticiple;
+    }
+
+    // equals, hashCode, toString
+    // Primarily for data integrity if used in Sets or as Map keys, based on ID
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Inflections that = (Inflections) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Inflections{" +
+               "id=" + id +
+               ", plural='" + plural + '\'' +
+               // ... other fields if needed for readable toString
+               '}';
+    }
+}
