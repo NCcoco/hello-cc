@@ -1,27 +1,26 @@
 package com.example.mywebsite.model;
 
-import jakarta.persistence.*;
+import com.example.mywebsite.util.converter.WordDefinitionListConverter; // Import converter
+import jakarta.persistence.*; // JPA annotations
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "words") // Maps to the 'words' table
+@Table(name = "dictionary_words") // New table name for single-table design
 public class DictionaryWord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "word_id")
     private Long id;
 
-    @Column(name = "word_text", nullable = false, unique = true)
+    @Column(name = "word_text", nullable = false, unique = true, length = 255)
     private String wordText;
 
-    // One DictionaryWord can have many WordDefinitions (e.g., noun, verb)
-    // CascadeType.ALL: if a DictionaryWord is saved/updated/deleted, so are its definitions.
-    // OrphanRemoval=true: if a WordDefinition is removed from this list, it's deleted from DB.
-    @OneToMany(mappedBy = "dictionaryWord", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) // Eager fetch for simplicity in this context
-    private List<WordDefinition> definitions = new ArrayList<>();
+    // This field will be stored as JSON in the database.
+    @Convert(converter = WordDefinitionListConverter.class)
+    @Column(name = "definitions_json", columnDefinition = "JSON") // Specify column type as JSON for MySQL
+    private List<WordDefinitionPojo> definitions = new ArrayList<>();
 
     // Constructors
     public DictionaryWord() {}
@@ -47,48 +46,46 @@ public class DictionaryWord {
         this.wordText = wordText;
     }
 
-    public List<WordDefinition> getDefinitions() {
+    public List<WordDefinitionPojo> getDefinitions() {
         return definitions;
     }
 
-    public void setDefinitions(List<WordDefinition> definitions) {
+    public void setDefinitions(List<WordDefinitionPojo> definitions) {
         this.definitions = definitions;
-        // Ensure bidirectional relationship is maintained
-        for (WordDefinition definition : definitions) {
-            definition.setDictionaryWord(this);
+    }
+
+    public void addDefinition(WordDefinitionPojo definition) {
+        if (this.definitions == null) {
+            this.definitions = new ArrayList<>();
         }
-    }
-
-    public void addDefinition(WordDefinition definition) {
         this.definitions.add(definition);
-        definition.setDictionaryWord(this);
     }
 
-    public void removeDefinition(WordDefinition definition) {
-        this.definitions.remove(definition);
-        definition.setDictionaryWord(null);
-    }
-
-    // equals, hashCode (based on id or business key like wordText)
+    // equals, hashCode, toString
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DictionaryWord that = (DictionaryWord) o;
-        return Objects.equals(id, that.id) || (id == null && wordText != null && Objects.equals(wordText, that.wordText));
+        if (id != null && that.id != null) {
+            return Objects.equals(id, that.id);
+        }
+        return Objects.equals(wordText, that.wordText);
     }
 
     @Override
     public int hashCode() {
-        // Prefer business key for hashCode if id is null (before persistence)
-        return id != null ? Objects.hash(id) : Objects.hash(wordText);
+        // If wordText is unique and non-null, it's a good candidate for hashCode
+        // If id is the definitive unique key after persistence, it's better.
+        return wordText != null ? Objects.hash(wordText) : Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return "DictionaryWord{" +
+        return "DictionaryWordEntity{" + // Renamed for clarity if debugging
                "id=" + id +
                ", wordText='" + wordText + '\'' +
+               ", definitions count=" + (definitions != null ? definitions.size() : 0) +
                '}';
     }
 }

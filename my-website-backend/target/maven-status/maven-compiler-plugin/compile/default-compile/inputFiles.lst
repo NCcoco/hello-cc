@@ -1,9 +1,13 @@
 /app/my-website-backend/src/main/java/com/example/mywebsite/model/Meaning.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/HelloController.java
+/app/my-website-backend/src/main/java/com/example/mywebsite/model/MeaningPojo.java
+/app/my-website-backend/src/main/java/com/example/mywebsite/util/converter/WordDefinitionListConverter.java
+/app/my-website-backend/src/main/java/com/example/mywebsite/service/DictionaryService.java
+/app/my-website-backend/src/main/java/com/example/mywebsite/model/WordDefinitionPojo.java
+/app/my-website-backend/src/main/java/com/example/mywebsite/model/InflectionsPojo.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/model/Inflections.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/model/DictionaryWord.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/model/WordDefinition.java
-/app/my-website-backend/src/main/java/com/example/mywebsite/service/DictionaryService.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/controller/DictionaryController.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/MyWebsiteApplication.java
 /app/my-website-backend/src/main/java/com/example/mywebsite/repository/DictionaryWordRepository.java

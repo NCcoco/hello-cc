@@ -1,9 +1,14 @@
+com/example/mywebsite/util/converter/WordDefinitionListConverter$1.class
 com/example/mywebsite/controller/DictionaryController.class
 com/example/mywebsite/model/WordDefinition.class
+com/example/mywebsite/HelloController.class
+com/example/mywebsite/model/MeaningPojo.class
+com/example/mywebsite/model/DictionaryWord.class
+com/example/mywebsite/model/Meaning.class
+com/example/mywebsite/model/InflectionsPojo.class
+com/example/mywebsite/util/converter/WordDefinitionListConverter.class
 com/example/mywebsite/service/DictionaryService.class
 com/example/mywebsite/MyWebsiteApplication.class
-com/example/mywebsite/HelloController.class
+com/example/mywebsite/model/WordDefinitionPojo.class
 com/example/mywebsite/repository/DictionaryWordRepository.class
-com/example/mywebsite/model/DictionaryWord.class
 com/example/mywebsite/model/Inflections.class
-com/example/mywebsite/model/Meaning.class
