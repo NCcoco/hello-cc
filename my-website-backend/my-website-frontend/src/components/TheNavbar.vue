@@ -2,7 +2,7 @@
   <nav class="navbar-full-width">
     <div class="navbar-content-wrapper">
       <div class="navbar-brand">
-        <router-link to="/" class="navbar-item brand-text">MySite</router-link>
+        <router-link to="/" class="navbar-item brand-text">CC</router-link>
       </div>
       <div class="navbar-menu">
         <router-link to="/" class="navbar-item">首页</router-link>

@@ -4,7 +4,7 @@
       <img src="https://via.placeholder.com/150" alt="User Avatar" class="avatar-image">
     </div>
     <div class="info-section">
-      <h2 class="user-name">Your Name</h2>
+      <h2 class="user-name">CC</h2>
       <p class="user-bio">A brief bio about yourself. This can be a couple of sentences describing your interests, profession, or anything you'd like to share.</p>
       <ul class="contact-details">
         <li><strong>Email:</strong> your.email@example.com</li>
