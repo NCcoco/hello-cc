@@ -1,47 +1,74 @@
 package com.example.mywebsite.service;
 
-import com.example.mywebsite.model.DictionaryWord;
-import com.example.mywebsite.repository.DictionaryWordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.mywebsite.model.Dictionary;
+import com.example.mywebsite.repository.DictionaryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // Optional for read-only methods
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DictionaryService {
 
-    private final DictionaryWordRepository dictionaryWordRepository;
+    private final DictionaryRepository dictionaryRepository;
 
-    @Autowired
-    public DictionaryService(DictionaryWordRepository dictionaryWordRepository) {
-        this.dictionaryWordRepository = dictionaryWordRepository;
+    public List<Dictionary> getAllDictionaries() {
+        return dictionaryRepository.selectList(new QueryWrapper<Dictionary>().orderByAsc("category", "sort_order", "item_key"));
     }
 
-    /**
-     * Finds a dictionary word by its text, ignoring case.
-     * The repository method already handles fetching related entities due to eager loading
-     * defined in DictionaryWord entity. If lazy loading was used, @Transactional might be
-     * needed here to keep the session open for Hibernate to fetch related entities.
-     * For read-only operations, @Transactional(readOnly = true) can be an optimization.
-     *
-     * @param wordText The word text to search for.
-     * @return An Optional containing the DictionaryWord if found, or an empty Optional otherwise.
-     */
-    @Transactional(readOnly = true) // Good practice for read operations
-    public Optional<DictionaryWord> findWord(String wordText) {
-        if (wordText == null || wordText.trim().isEmpty()) {
-            return Optional.empty();
-        }
-        return dictionaryWordRepository.findByWordTextIgnoreCase(wordText.trim());
+    public List<Dictionary> findByCategory(String category) {
+        return dictionaryRepository.selectList(
+            new QueryWrapper<Dictionary>()
+                .eq("category", category)
+                .orderByAsc("sort_order", "item_key")
+        );
     }
 
-    // Future methods for adding/updating words could be added here, for example:
-    /*
+    public Dictionary getDictionaryById(Long id) {
+        return dictionaryRepository.selectById(id);
+    }
+
     @Transactional
-    public DictionaryWord saveWord(DictionaryWord dictionaryWord) {
-        // Add any business logic before saving, e.g., validation, normalization
-        return dictionaryWordRepository.save(dictionaryWord);
+    public Dictionary createDictionary(Dictionary dictionary) {
+        // MyBatis-Plus will automatically fill createdAt and updatedAt
+        dictionaryRepository.insert(dictionary);
+        return dictionary;
     }
-    */
+
+    @Transactional
+    public Dictionary updateDictionary(Long id, Dictionary dictionaryDetails) {
+        Dictionary existingDictionary = dictionaryRepository.selectById(id);
+        if (existingDictionary == null) {
+            return null; // Or throw ResourceNotFoundException
+        }
+
+        // Update fields if provided in dictionaryDetails
+        if (dictionaryDetails.getCategory() != null) {
+            existingDictionary.setCategory(dictionaryDetails.getCategory());
+        }
+        if (dictionaryDetails.getItemKey() != null) {
+            existingDictionary.setItemKey(dictionaryDetails.getItemKey());
+        }
+        if (dictionaryDetails.getItemValue() != null) {
+            existingDictionary.setItemValue(dictionaryDetails.getItemValue());
+        }
+        if (dictionaryDetails.getSortOrder() != null) {
+            existingDictionary.setSortOrder(dictionaryDetails.getSortOrder());
+        }
+        if (dictionaryDetails.getDescription() != null) {
+            existingDictionary.setDescription(dictionaryDetails.getDescription());
+        }
+        // Note: createdAt should not be updated. updatedAt will be handled by MyMetaObjectHandler.
+
+        dictionaryRepository.updateById(existingDictionary);
+        return existingDictionary;
+    }
+
+    @Transactional
+    public void deleteDictionary(Long id) {
+        dictionaryRepository.deleteById(id);
+    }
 }
